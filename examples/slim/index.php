@@ -10,6 +10,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Factory\AppFactory;
 use WebProfiler\Bridge\Slim\Middlewares\DebugMiddleware;
+use WebProfiler\Bridge\Slim\Middlewares\RequestDebugMiddleware;
 use WebProfiler\Controllers\DebugController;
 use WebProfiler\DataCollectors\LogDataCollector;
 use WebProfiler\DataCollectors\PdoDataCollector;
@@ -22,20 +23,6 @@ require __DIR__ . '/vendor/autoload.php';
 
 Db::setUp();
 $db = new PdoTraceable("sqlite:" . __DIR__ . "/src/db/bbdd.db");
-
-final class RequestDebugMiddleware implements MiddlewareInterface
-{
-    public function __construct(private RequestTraceable $traceable)
-    {
-    }
-
-    public function process(Request $request, RequestHandlerInterface $handler): Response
-    {
-        $this->traceable->setData($request);
-
-        return $handler->handle($request);
-    }
-}
 
 $app = AppFactory::create();
 
@@ -55,8 +42,6 @@ $app->addMiddleware(new RequestDebugMiddleware($traceableRequest));
 $app->addRoutingMiddleware();
 
 $debugController = new DebugController($debug);
-
-$app->get('/controller', 'App\controllers\TestController:create');
 
 $app->get('/', function (Request $request, Response $response) use ($tracableLog, $db) {
     $response->getBody()->write("Hello world!");
