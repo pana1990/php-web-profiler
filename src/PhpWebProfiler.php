@@ -47,4 +47,9 @@ final class PhpWebProfiler extends DebugBar
             $storage->clear();
         }
     }
+
+    public function getPrefixEndpoint(): string
+    {
+        return $this->prefixEndpoint;
+    }
 }

@@ -8,7 +8,7 @@ class RequestDataCollector extends DataCollectorAbstract implements DataCollecto
 {
     private RequestTraceable $traceable;
 
-    public function __construct($traceable)
+    public function __construct(RequestTraceable $traceable)
     {
         $this->traceable = $traceable;
     }

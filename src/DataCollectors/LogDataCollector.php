@@ -4,14 +4,10 @@ namespace WebProfiler\DataCollectors;
 
 use Psr\Log\LoggerInterface;
 
-class LogDataCollector extends DataCollectorAbstract implements DataCollectorToolbar, LoggerInterface
+final class LogDataCollector extends DataCollectorAbstract implements DataCollectorToolbar, LoggerInterface
 {
-    private LoggerInterface $logger;
-
-    public function setLogger(LoggerInterface $logger): self
+    public function __construct(private LoggerInterface $logger)
     {
-        $this->logger = $logger;
-        return $this;
     }
 
     public function getName(): string
