@@ -1,5 +1,7 @@
 # PHP Web Toolbar
 
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+
 This package is under development. Please do not use in production yet 🙏
 
 TODO
@@ -26,4 +28,8 @@ Database panel
 
 ## ROADMAP
 
-[ ] Support slim
+[ ] Add support for slim
+
+## ⚖️ LICENSE
+
+php-web-profiler is released under the MIT License. See the bundled [LICENSE](LICENSE) for details.
