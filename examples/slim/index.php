@@ -20,7 +20,7 @@ use WebProfiler\Traceables\RequestTraceable;
 require __DIR__ . '/vendor/autoload.php';
 
 Db::setUp();
-$db = new PdoTraceable("sqlite:" . __DIR__ . "/src/db/bbdd.db");
+$db = new PdoTraceable('sqlite:' . __DIR__ . '/src/db/bbdd.db');
 
 $app = AppFactory::create();
 
@@ -42,8 +42,8 @@ $app->addRoutingMiddleware();
 $debugController = new DebugController($debug);
 
 $app->get('/', function (Request $request, Response $response) use ($tracableLog, $db) {
-    $response->getBody()->write("Hello world!");
-    $tracableLog->error('Esto es un error');
+    $response->getBody()->write('Hello world!');
+    $tracableLog->error('This a error');
     $db->exec('INSERT INTO test (title) VALUES ("test");');
     $db->exec('SELECT * FROM test;');
 
