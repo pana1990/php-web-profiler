@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Factory\AppFactory;
+use WebProfiler\Bridge\Slim\Middlewares\DebugMiddleware;
 use WebProfiler\Controllers\DebugController;
 use WebProfiler\DataCollectors\LogDataCollector;
 use WebProfiler\DataCollectors\PdoDataCollector;
@@ -21,22 +22,6 @@ require __DIR__ . '/vendor/autoload.php';
 
 Db::setUp();
 $db = new PdoTraceable("sqlite:" . __DIR__ . "/src/db/bbdd.db");
-
-final class DebugMiddleware implements MiddlewareInterface
-{
-    public function __construct(
-        private PhpWebProfiler $debugBar
-    ) {
-    }
-
-    public function process(Request $request, RequestHandlerInterface $handler): Response
-    {
-        $response = $handler->handle($request);
-        $this->debugBar->collect();
-
-        return $response;
-    }
-}
 
 final class RequestDebugMiddleware implements MiddlewareInterface
 {
