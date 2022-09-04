@@ -6,8 +6,6 @@ use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Factory\AppFactory;
 use WebProfiler\Bridge\Slim\Middlewares\DebugMiddleware;
 use WebProfiler\Bridge\Slim\Middlewares\RequestDebugMiddleware;
