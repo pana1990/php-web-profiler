@@ -1,0 +1,7 @@
+{# @var collector \WebProfiler\DataCollectors\RequestDataCollector #}
+
+<div class="toolbar__block">
+    {% if collector.path is not null %}
+        Path <span class="badge bg-primary">{{ collector.path }}</span>
+    {% endif %}
+</div>

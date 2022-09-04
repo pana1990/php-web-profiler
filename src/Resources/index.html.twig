@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ include('header.html.twig', with_context = false) }}
+
+    <div class="container mt-2">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Time</th>
+                <th>Method</th>
+                <th>URI</th>
+                <th>Token</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in data %}
+                <tr>
+                    <th>{{ item['datetime'] }}</th>
+                    <th>{{ item['method'] }}</th>
+                    <th>{{ item['uri'] }}</th>
+                    <th><a href="http://localhost:8080/debug/{{ item['id'] }}">{{ item['id'] }}</a></th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+

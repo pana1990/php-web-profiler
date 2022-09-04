@@ -1,0 +1,29 @@
+{
+  "name": "examples/slim",
+  "description": "",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "pana",
+      "email": "pana_1990@hotmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "repositories": [
+    { "type": "path", "url": "../../../php-web-profiler" }
+  ],
+  "require": {
+    "php": "^8",
+    "ext-pdo": "*",
+
+    "pana1990/php-web-profiler": "@dev",
+
+    "slim/slim": "^4.10",
+    "slim/psr7": "^1.5",
+    "monolog/monolog": "^3.1"
+  }
+}

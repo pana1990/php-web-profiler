@@ -1,0 +1,27 @@
+{
+  "name": "pana1990/php-web-profiler",
+  "description": "Web profiler in the browser for php application",
+  "keywords": ["debug", "debugbar"],
+  "homepage": "https://github.com/pana1990/php-web-profiler",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "pana",
+      "email": "pana_1990@hotmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "WebProfiler\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^8",
+    "maximebf/debugbar": "^1.18",
+    "twig/twig": "^3.4"
+  },
+  "require-dev": {
+
+  }
+}

@@ -1,0 +1,38 @@
+{# @var collector \WebProfiler\DataCollectors\PdoDataCollector #}
+
+{% extends 'page.html.twig' %}
+
+{% block page %}
+    <div class="col-md-10">
+        <h2>Database</h2>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Time</th>
+                <th>Duration</th>
+                <th>Query</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for value in collector.collect %}
+                <tr>
+                    <td>{{ value['time'] | date('H:i:s.u') }}</td>
+                    <td>{{ collector.formatDuration(value['duration']) }}</td>
+                    <td><pre><code class="language-sql">{{ value['sql'] }}</code></pre></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs-themes@1.0.0/solarized_light.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+{% endblock %}

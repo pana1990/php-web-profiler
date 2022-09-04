@@ -1,0 +1,29 @@
+{# @var collector \WebProfiler\DataCollectors\RequestDataCollector #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ include('header.html.twig') }}
+    {{ include('toolbar.html.twig') }}
+
+    <div class="container-fluid mt-2">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="list-group">
+                    {% for collector in collectors %}
+                        <a
+                            href="{{ '/debug/'~token~'/'~collector.name }}"
+                            class="list-group-item list-group-item-action"
+                        >
+                            {{ collector.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% block page '' %}
+        </div>
+    </div>
+
+{% endblock %}
+

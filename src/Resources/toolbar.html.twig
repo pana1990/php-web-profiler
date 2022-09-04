@@ -1,0 +1,20 @@
+{# @var toolBarCollectors \WebProfiler\DataCollectors\DataCollector[] #}
+
+<div class="toolbar">
+  {% for collector in toolBarCollectors %}
+    {% set foo = 'pages/'~collector.name~'/detail.html.twig' %}
+    {% include foo with {'collector': collector} %}
+  {% endfor %}
+</div>
+
+<style>
+  .toolbar {
+    height: 40px;
+    background-color: linear-gradient(to bottom, #fff 0%, #f7f7f7 100%);
+    display: flex;
+    flex-wrap: wrap;
+    text-align: left;
+    direction: ltr;
+    border: 1px solid rgba(0, 0, 0, 0.11);
+  }
+</style>

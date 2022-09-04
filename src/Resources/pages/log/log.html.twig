@@ -1,0 +1,85 @@
+{# @var collector \WebProfiler\DataCollectors\LogDataCollector #}
+
+{% extends 'page.html.twig' %}
+
+{% block page %}
+    <div class="col-md-10">
+        <h2>Logs</h2>
+
+        <div class="dropdown mb-1">
+            <button
+                class="btn btn-secondary btn-sm dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                aria-expanded="true"
+            >
+                Level
+            </button>
+            <ul class="dropdown-menu p-2">
+                <div class="ml-2">
+                    <button id="select-all" class="btn btn-link btn-sm" onclick="select(true)">Select All</button>
+                    <button id="select-none" class="btn btn-link btn-sm" onclick="select(false)">Select None</button>
+                </div>
+                {% for level in collector.levels %}
+                    <li>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value="{{ level }}" checked />
+                                {{ level | capitalize }}
+                            </label>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Category</th>
+                <th>Message</th>
+                <th>Trace</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for value in collector.logs %}
+                    <tr data-level="{{ value[0] }}" class="{{ collector.style(value) }}">
+                        <td>{{ value[0] }} </td>
+                        <td>{{ value[1] }} </td>
+                        <td>
+                            <a href="{{ collector.ideLink(value) }}">
+                                {{ collector.trace(value) }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let checkboxes = document.querySelectorAll("input[type=checkbox]");
+
+        for (let checkbox of checkboxes) {
+            checkbox.addEventListener('change', function() {
+                let rows = document.querySelectorAll(`[data-level='${this.value}']`);
+                if (this.checked) {
+                    rows.forEach((row) => row.classList.remove('visually-hidden'));
+                } else {
+                    rows.forEach((row) => row.classList.add('visually-hidden'));
+                }
+            });
+        }
+
+        function select(value) {
+            const rows = document.querySelectorAll("input[type=checkbox]");
+
+            for (let row in rows) {
+                if (rows[row].checked !== value) {
+                    rows[row].click();
+                }
+            }
+        }
+    </script>
+{% endblock %}
