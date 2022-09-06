@@ -1,5 +1,6 @@
 # PHP Web Toolbar
 
+[![Build Status](https://github.com/pana1990/php-web-profiler/actions/workflows//lint.yml/badge.svg)](https://github.com/pana1990/php-web-profiler/actions)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
 This package is under development. Please do not use in production yet 🙏
