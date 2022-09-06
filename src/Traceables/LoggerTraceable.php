@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace WebProfiler\Traceables;
 
 use Psr\Log\LoggerInterface;
+use WebProfiler\Contracts\LoggerTraceableInterface;
 
-final class LoggerTraceable implements LoggerInterface
+final class LoggerTraceable implements LoggerInterface, LoggerTraceableInterface
 {
     private array $logs = [];
 
@@ -19,57 +20,62 @@ final class LoggerTraceable implements LoggerInterface
         return $this->logs;
     }
 
-    public function emergency(\Stringable|string $message, array $context = []): void
+    public function addLog(string $message, string $type, array $context = [])
     {
-        $this->logs[] = ['emergency', $message, $context, debug_backtrace()];
+        $this->logs[] =  [$type, $message, $context, debug_backtrace()];
+    }
+
+    public function emergency($message, array $context = []): void
+    {
+        $this->addLog($message, 'emergency', $context);
         $this->logger->emergency($message, $context);
     }
 
-    public function alert(\Stringable|string $message, array $context = []): void
+    public function alert($message, array $context = []): void
     {
-        $this->logs[] = ['alert', $message, $context, debug_backtrace()];
+        $this->addLog($message, 'alert', $context);
         $this->logger->alert($message, $context);
     }
 
-    public function critical(\Stringable|string $message, array $context = []): void
+    public function critical($message, array $context = []): void
     {
-        $this->logs[] = ['critical', $message, $context, debug_backtrace()];
+        $this->addLog($message, 'critical', $context);
         $this->logger->critical($message, $context);
     }
 
-    public function error(\Stringable|string $message, array $context = []): void
+    public function error($message, array $context = []): void
     {
-        $this->logs[] = ['error', $message, $context, debug_backtrace()];
+        $this->addLog($message, 'error', $context);
         $this->logger->error($message, $context);
     }
 
-    public function warning(\Stringable|string $message, array $context = []): void
+    public function warning($message, array $context = []): void
     {
-        $this->logs[] = ['warning', $message, $context, debug_backtrace()];
+        $this->addLog($message, 'warning', $context);
         $this->logger->warning($message, $context);
     }
 
-    public function notice(\Stringable|string $message, array $context = []): void
+    public function notice($message, array $context = []): void
     {
-        $this->logs[] = ['notice', $message, $context, debug_backtrace()];
+        $this->addLog($message, 'notice', $context);
         $this->logger->notice($message, $context);
     }
 
-    public function info(\Stringable|string $message, array $context = []): void
+    public function info($message, array $context = []): void
     {
-        $this->logs[] = ['info', $message, $context, debug_backtrace()];
+        $this->addLog($message, 'info', $context);
         $this->logger->info($message, $context);
     }
 
-    public function debug(\Stringable|string $message, array $context = []): void
+    public function debug($message, array $context = []): void
     {
-        $this->logs[] = ['debug', $message, $context, debug_backtrace()];
+        $this->addLog($message, 'debug', $context);
         $this->logger->debug($message, $context);
     }
 
-    public function log($level, \Stringable|string $message, array $context = []): void
+    public function log($level, $message, array $context = []): void
     {
-        $this->logs[] = [$level, $message, $context, debug_backtrace()];
+        $this->addLog($message, $level, $context);
         $this->logger->log($level, $message, $context);
     }
 }

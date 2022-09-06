@@ -2,7 +2,6 @@
 
 namespace WebProfiler\DataCollectors;
 
-use Psr\Log\LoggerInterface;
 use WebProfiler\Traceables\LoggerTraceable;
 
 final class LogDataCollector extends DataCollectorAbstract implements DataCollectorToolbar
