@@ -1,6 +1,6 @@
 on: [push, pull_request]
 
-name: Main
+name: Lint
 
 jobs:
   php-cs-fixer:
