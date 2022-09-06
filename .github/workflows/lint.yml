@@ -8,12 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        with:
-          path: .build/php-cs-fixer/php-cs-fixer.cache
-          key: ${{ runner.OS }}-${{ github.repository }}-phpcsfixer-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.OS }}-${{ github.repository }}-phpcsfixer-
+      - name: build-path
+        run: mkdir -p .build/php-cs-fixer
       - name: PHP-CS-Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
