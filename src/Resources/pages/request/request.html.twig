@@ -54,7 +54,7 @@
                     {% for name, value in collector.collect['get'] %}
                         <tr>
                             <th>{{ name }}</th>
-                            <td>{{ value }}</td>
+                            <td>{{ value | json_encode }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
