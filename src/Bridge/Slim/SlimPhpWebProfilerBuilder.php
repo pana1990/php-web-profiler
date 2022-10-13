@@ -76,14 +76,14 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
     private function addRoutes(DebugController $debugController): void
     {
         $prefixEndpoint = $this->phpWebProfiler->getPrefixEndpoint();
-        $this->app->get("/$prefixEndpoint/{id}[/{page}]", function (Request $request, Response $response, array $args) use ($debugController) {
+        $this->app->get("/$prefixEndpoint/{id}[/{page}]", function ($request, $response, array $args) use ($debugController) {
             $render = $debugController->page($args['id'], $args['page'] ?? null);
             $response->getBody()->write($render);
 
             return $response;
         });
 
-        $this->app->get("/$prefixEndpoint", function (Request $request, Response $response) use ($debugController) {
+        $this->app->get("/$prefixEndpoint", function ($request, $response) use ($debugController) {
             $render = $debugController->home();
             $response->getBody()->write($render);
 
