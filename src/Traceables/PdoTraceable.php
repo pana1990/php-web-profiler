@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace WebProfiler\Traceables;
 
-final class PdoTraceable extends \PDO
+use WebProfiler\Contracts\PdoTraceableInterface;
+
+final class PdoTraceable extends \PDO implements PdoTraceableInterface
 {
     private array $statements = [];
 
@@ -17,15 +19,20 @@ final class PdoTraceable extends \PDO
 
         $duration = microtime(true) - $timeStart;
 
-        $this->statements[] = [
+        $this->addStatement([
             'time' => $time,
             'duration' => $duration,
             'sql' => $statement,
-        ];
+        ]);
     }
 
     public function statements(): array
     {
         return $this->statements;
+    }
+
+    public function addStatement(array $data): void
+    {
+        $this->statements[] = $data;
     }
 }
