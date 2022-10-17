@@ -9,7 +9,7 @@ use WebProfiler\Traceables\PdoTraceable;
 
 final class PdoDataCollector extends DataCollectorAbstract
 {
-    private PdoTraceable $pdoTraceable;
+    private PdoTraceableInterface $pdoTraceable;
 
     public function __construct(PdoTraceableInterface $pdoTraceable)
     {
