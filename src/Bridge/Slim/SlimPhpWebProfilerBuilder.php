@@ -4,31 +4,28 @@ declare(strict_types=1);
 
 namespace WebProfiler\Bridge\Slim;
 
-use DebugBar\DataCollector\PDO\TraceablePDO;
 use DebugBar\Storage\FileStorage;
 use Psr\Log\LoggerInterface;
 use Slim\App;
-use Slim\Psr7\Request;
-use Slim\Psr7\Response;
 use WebProfiler\Bridge\Slim\Middlewares\DebugMiddleware;
 use WebProfiler\Bridge\Slim\Middlewares\RequestDebugMiddleware;
+use WebProfiler\Contracts\PdoTraceableInterface;
 use WebProfiler\Controllers\DebugController;
 use WebProfiler\DataCollectors\LogDataCollector;
 use WebProfiler\DataCollectors\PdoDataCollector;
 use WebProfiler\DataCollectors\RequestDataCollector;
 use WebProfiler\PhpWebProfiler;
 use WebProfiler\PhpWebProfilerBuilder;
-use WebProfiler\Traceables\PdoTraceable;
 use WebProfiler\Traceables\RequestTraceable;
 
 final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
 {
     private ?RequestTraceable $requestTraceable = null;
-    private ?LoggerInterface $logger = null;
-    private ?PdoTraceable $pdo = null;
+    private ?LoggerInterface $logger            = null;
+    private ?PdoTraceableInterface $pdo         = null;
 
     private function __construct(
-        private App            $app,
+        private App $app,
         private PhpWebProfiler $phpWebProfiler,
     ) {
     }
@@ -37,24 +34,28 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
     {
         $self = new self($app, new PhpWebProfiler());
         $self->withTraceable();
+
         return $self;
     }
 
-    public function withPdo(PdoTraceable $pdo): self
+    public function withPdo(PdoTraceableInterface $pdo): self
     {
         $this->pdo = $pdo;
+
         return $this;
     }
 
     public function withTraceable(): self
     {
         $this->requestTraceable = new RequestTraceable();
+
         return $this;
     }
 
     public function withLogger(LoggerInterface $logger): self
     {
         $this->logger = $logger;
+
         return $this;
     }
 
@@ -76,12 +77,15 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
     private function addRoutes(DebugController $debugController): void
     {
         $prefixEndpoint = $this->phpWebProfiler->getPrefixEndpoint();
-        $this->app->get("/$prefixEndpoint/{id}[/{page}]", function ($request, $response, array $args) use ($debugController) {
-            $render = $debugController->page($args['id'], $args['page'] ?? null);
-            $response->getBody()->write($render);
+        $this->app->get(
+            "/$prefixEndpoint/{id}[/{page}]",
+            function ($request, $response, array $args) use ($debugController) {
+                $render = $debugController->page($args['id'], $args['page'] ?? null);
+                $response->getBody()->write($render);
 
-            return $response;
-        });
+                return $response;
+            }
+        );
 
         $this->app->get("/$prefixEndpoint", function ($request, $response) use ($debugController) {
             $render = $debugController->home();
