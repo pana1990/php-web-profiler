@@ -91,7 +91,18 @@
                     {% for name, value in collector.collect['server'] %}
                         <tr>
                             <td class="text-nowrap fw-bold">{{ name }}</td>
-                            <td>{{ value }}</td>
+                            <td>
+                                {% if value is iterable %}
+                                    {% for v in value %}
+                                        {{ v }}
+                                        {% if not loop.last %}
+                                            <br />
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
