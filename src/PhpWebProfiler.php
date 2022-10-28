@@ -35,6 +35,11 @@ final class PhpWebProfiler extends DebugBar
     private function isTraceable(): bool
     {
         $requestUri = $_SERVER['REQUEST_URI'] ?? null;
+
+        if (null === $requestUri) {
+            return false;
+        }
+
         $pattern = sprintf('/^\/%s$|^\/%s\//', $this->prefixEndpoint, $this->prefixEndpoint);
 
         return 0 === preg_match($pattern, $requestUri);
