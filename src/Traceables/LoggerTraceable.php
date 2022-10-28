@@ -22,7 +22,12 @@ final class LoggerTraceable implements LoggerInterface, LoggerTraceableInterface
 
     public function addLog(string $message, string $type, array $context = [])
     {
-        $this->logs[] =  [$type, $message, $context, debug_backtrace()];
+        $this->logs[] = [
+            $type,
+            $message,
+            $context,
+            array_slice(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), 1)
+        ];
     }
 
     public function emergency($message, array $context = []): void

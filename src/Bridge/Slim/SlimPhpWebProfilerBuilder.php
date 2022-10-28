@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace WebProfiler\Bridge\Slim;
 
 use DebugBar\Storage\FileStorage;
-use Psr\Log\LoggerInterface;
 use Slim\App;
 use WebProfiler\Bridge\Slim\Middlewares\DebugMiddleware;
 use WebProfiler\Bridge\Slim\Middlewares\RequestDebugMiddleware;
@@ -16,12 +15,13 @@ use WebProfiler\DataCollectors\PdoDataCollector;
 use WebProfiler\DataCollectors\RequestDataCollector;
 use WebProfiler\PhpWebProfiler;
 use WebProfiler\PhpWebProfilerBuilder;
+use WebProfiler\Traceables\LoggerTraceable;
 use WebProfiler\Traceables\RequestTraceable;
 
 final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
 {
     private ?RequestTraceable $requestTraceable = null;
-    private ?LoggerInterface $logger            = null;
+    private ?LoggerTraceable $logger            = null;
     private ?PdoTraceableInterface $pdo         = null;
 
     private function __construct(
@@ -52,7 +52,7 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
         return $this;
     }
 
-    public function withLogger(LoggerInterface $logger): self
+    public function withLogger(LoggerTraceable $logger): self
     {
         $this->logger = $logger;
 
