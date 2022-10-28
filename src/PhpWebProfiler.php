@@ -37,7 +37,7 @@ final class PhpWebProfiler extends DebugBar
         $requestUri = $_SERVER['REQUEST_URI'] ?? null;
 
         if (null === $requestUri) {
-            return false;
+            return true;
         }
 
         $pattern = sprintf('/^\/%s$|^\/%s\//', $this->prefixEndpoint, $this->prefixEndpoint);

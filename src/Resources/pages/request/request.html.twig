@@ -90,8 +90,19 @@
                     <tbody>
                     {% for name, value in collector.collect['server'] %}
                         <tr>
-                            <th>{{ name }}</th>
-                            <td>{{ value }}</td>
+                            <td class="text-nowrap fw-bold">{{ name }}</td>
+                            <td>
+                                {% if value is iterable %}
+                                    {% for v in value %}
+                                        {{ v }}
+                                        {% if not loop.last %}
+                                            <br />
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
