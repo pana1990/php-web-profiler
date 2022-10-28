@@ -62,7 +62,17 @@ final class LogDataCollector extends DataCollectorAbstract implements DataCollec
 
         $lastTrace = reset($trace);
 
-        return $lastTrace['file'];
+        $last = '';
+
+        if (isset($lastTrace['file'])) {
+            $last .= $lastTrace['file'];
+        }
+
+        if (isset($lastTrace['line'])) {
+            $last .= ':'.$lastTrace['line'];
+        }
+
+        return $last;
     }
 
     public function ideLink(array $value): string
