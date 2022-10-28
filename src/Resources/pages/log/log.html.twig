@@ -45,7 +45,7 @@
             <tbody>
                 {% for value in collector.logs %}
                     <tr data-level="{{ value[0] }}" class="{{ collector.style(value) }}">
-                        <td>{{ value[0] }} </td>
+                        <td class="text-nowrap">{{ value[0] }} </td>
                         <td>{{ value[1] }} </td>
                         <td>
                             <a href="{{ collector.ideLink(value) }}">

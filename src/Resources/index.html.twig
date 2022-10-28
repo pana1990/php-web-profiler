@@ -16,10 +16,10 @@
             <tbody>
             {% for item in data %}
                 <tr>
-                    <th>{{ item['datetime'] }}</th>
-                    <th>{{ item['method'] }}</th>
-                    <th>{{ item['uri'] }}</th>
-                    <th><a href="debug/{{ item['id'] }}">{{ item['id'] }}</a></th>
+                    <td class="text-nowrap">{{ item['datetime'] }}</td>
+                    <td class="text-nowrap">{{ item['method'] }}</td>
+                    <td title="{{ item['uri'] }}">{{ item['uri'] }}</td>
+                    <td class="text-nowrap"><a href="debug/{{ item['id'] }}">{{ item['id'] }}</a></td>
                 </tr>
             {% endfor %}
             </tbody>
