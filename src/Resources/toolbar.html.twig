@@ -2,8 +2,8 @@
 
 <div class="toolbar">
   {% for collector in toolBarCollectors %}
-    {% set foo = 'pages/'~collector.name~'/detail.html.twig' %}
-    {% include foo with {'collector': collector} %}
+    {% set detail = 'pages/'~collector.name~'/detail.html.twig' %}
+    {% include detail with {'collector': collector} %}
   {% endfor %}
 </div>
 
