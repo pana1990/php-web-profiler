@@ -17,14 +17,14 @@ final class PhpWebProfiler extends DebugBar
     {
         return array_filter(
             $this->collectors,
-            fn (DataCollector $collector) => $collector instanceof DataCollectorToolbar
+            static fn (DataCollector $collector) => $collector instanceof DataCollectorToolbar
         );
     }
 
-    public function collect()
+    public function collect(): array
     {
         if (!$this->isTraceable()) {
-            return;
+            return [];
         }
 
         $this->logRotate();
