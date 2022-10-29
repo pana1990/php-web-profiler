@@ -1,7 +1,7 @@
 {
   "name": "pana1990/php-web-profiler",
   "description": "Web profiler in the browser for php application",
-  "keywords": ["debug", "debugbar"],
+  "keywords": ["debugbar", "profiler", "debug", "webprofiler", "logging"],
   "homepage": "https://github.com/pana1990/php-web-profiler",
   "type": "library",
   "license": "MIT",
@@ -17,7 +17,7 @@
     }
   },
   "require": {
-    "php": "^8",
+    "php": ">=8",
     "maximebf/debugbar": "^1.18",
     "twig/twig": "^2.0 | ^3.4.3"
   },
