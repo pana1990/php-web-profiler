@@ -1,5 +1,7 @@
 # PHP Web Toolbar
 
+[![Latest Stable Version](https://img.shields.io/packagist/v/pana1990/php-web-profiler.svg?style=flat-square)](https://packagist.org/packages/pana1990/php-web-profiler)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.0-8892BF.svg?style=flat-square)](https://php.net/)
 [![Build Status](https://github.com/pana1990/php-web-profiler/actions/workflows//lint.yml/badge.svg)](https://github.com/pana1990/php-web-profiler/actions)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
