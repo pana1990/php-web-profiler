@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace WebProfiler\DataCollectors;
 
 use WebProfiler\Contracts\PdoTraceableInterface;
-use WebProfiler\Traceables\PdoTraceable;
 
 final class PdoDataCollector extends DataCollectorAbstract
 {
