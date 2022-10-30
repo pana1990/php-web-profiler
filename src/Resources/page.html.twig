@@ -1,4 +1,5 @@
 {# @var collectors \WebProfiler\DataCollectors\DataCollectorToolbar[] #}
+{# @var activeCollector string #}
 
 {% extends 'base.html.twig' %}
 
@@ -13,8 +14,7 @@
                     {% for collector in collectors %}
                         <a
                             href="{{ '/debug/'~token~'/'~collector.name }}"
-                            class="list-group-item list-group-item-action"
-                        >
+                            class="list-group-item list-group-item-action {{ activeCollector is same as collector.name ? 'active' : '' }}" >
                             {{ collector.name }}
                         </a>
                     {% endfor %}

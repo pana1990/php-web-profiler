@@ -54,6 +54,8 @@ final class DebugController
             $collector = reset($collectors);
         }
 
+        $this->twig->addGlobal('activeCollector', $collector->getName());
+
         return $this->twig->render($collector->template(), ['collector' => $collector]);
     }
 }
