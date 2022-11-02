@@ -1,4 +1,7 @@
-.PHONY: coding-standards
-coding-standards:
+cs-fix:
 	 mkdir -p .build/php-cs-fixer
-	 vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --diff --verbose
+	 composer run-script cs:fix
+
+cs-check:
+	 mkdir -p .build/php-cs-fixer
+	 composer run-script cs:check

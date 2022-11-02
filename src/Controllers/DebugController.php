@@ -21,7 +21,7 @@ final class DebugController
             [__DIR__ . '/../Resources/']
         );
         $this->twig = new Environment($loader, [
-            'debug' => true
+            'debug' => true,
         ]);
         $this->twig->addExtension(new DebugExtension());
 
@@ -36,7 +36,7 @@ final class DebugController
         ]);
     }
 
-    public function page(string $token, ?string $page = null): string
+    public function page(string $token, string $page = null): string
     {
         $this->twig->addGlobal('token', $token);
 

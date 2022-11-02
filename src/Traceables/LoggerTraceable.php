@@ -26,7 +26,7 @@ final class LoggerTraceable implements LoggerInterface, LoggerTraceableInterface
             $type,
             $message,
             $context,
-            array_slice(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), 1)
+            array_slice(debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS), 1),
         ];
     }
 
