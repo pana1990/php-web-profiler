@@ -11,7 +11,7 @@ use WebProfiler\DataCollectors\DataCollectorToolbar;
 final class PhpWebProfiler extends DebugBar
 {
     private string $prefixEndpoint = 'debug';
-    private int $keepMaxLogs = 5;
+    private int $keepMaxLogs = 30;
 
     public function getToolbarCollectors(): array
     {
