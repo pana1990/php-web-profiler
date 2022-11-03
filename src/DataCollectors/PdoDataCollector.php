@@ -6,7 +6,7 @@ namespace WebProfiler\DataCollectors;
 
 use WebProfiler\Contracts\PdoTraceableInterface;
 
-final class PdoDataCollector extends DataCollectorAbstract
+final class PdoDataCollector extends DataCollectorAbstract implements DataCollectorToolbar
 {
     private PdoTraceableInterface $pdoTraceable;
 
@@ -20,6 +20,11 @@ final class PdoDataCollector extends DataCollectorAbstract
         return 'pages/pdo/pdo.html.twig';
     }
 
+    public function detail(): string
+    {
+        return 'detail.html.twig';
+    }
+
     public function collect(): array
     {
         if (!empty($this->data)) {
@@ -31,6 +36,11 @@ final class PdoDataCollector extends DataCollectorAbstract
 
     public function getName(): string
     {
-        return 'database';
+        return 'pdo';
+    }
+
+    public function count(): int
+    {
+        return count($this->collect());
     }
 }
