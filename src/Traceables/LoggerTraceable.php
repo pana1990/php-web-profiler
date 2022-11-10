@@ -6,9 +6,12 @@ namespace WebProfiler\Traceables;
 
 use Psr\Log\LoggerInterface;
 use WebProfiler\Contracts\LoggerTraceableInterface;
+use WebProfiler\Traits\BufferSize;
 
 final class LoggerTraceable implements LoggerInterface, LoggerTraceableInterface
 {
+    use BufferSize;
+
     private array $logs = [];
 
     public function __construct(private LoggerInterface $logger)
@@ -20,8 +23,12 @@ final class LoggerTraceable implements LoggerInterface, LoggerTraceableInterface
         return $this->logs;
     }
 
-    public function addLog(string $message, string $type, array $context = [])
+    public function addLog(string $message, string $type, array $context = []): void
     {
+        if ($this->isBufferSizeExceeded()) {
+            return;
+        }
+
         $this->logs[] = [
             $type,
             $message,
