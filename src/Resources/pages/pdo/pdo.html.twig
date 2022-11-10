@@ -20,7 +20,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for value in collector.collect %}
+            {% for index, value in collector.collect %}
                 <tr>
                     <td class="text-nowrap">{{ value['time'] | date('H:i:s.u') }}</td>
                     <td class="text-nowrap">{{ collector.formatDuration(value['duration']) }}</td>
@@ -28,14 +28,13 @@
                         <pre><code class="language-sql">{{ value['sql'] }}</code></pre>
                         <div>
                             <p>
-                                <a data-bs-toggle="collapse"
-                                        href="#multiCollapseExample1">
-                                    Trace
+                                <a data-bs-toggle="collapse" href="#trace-{{ index }}">
+                                    Show Trace
                                 </a>
                             </p>
-                            <div class="collapse" id="multiCollapseExample1">
-                                {% for item in value['trace'] %}
-                                    {{ item['file'] ~ item['line'] }} <br>
+                            <div class="collapse" id="trace-{{ index }}">
+                                {% for trace in value['trace'] %}
+                                    <a href="{{ trace['url'] }}">{{ trace['path'] }}</a><br>
                                 {% endfor %}
                             </div>
                         </div>

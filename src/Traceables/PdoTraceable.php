@@ -23,7 +23,7 @@ final class PdoTraceable extends \PDO implements PdoTraceableInterface
             'time' => $time,
             'duration' => $duration,
             'sql' => $statement,
-            'trace' => debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, 5),
+            'trace' => debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 5),
         ]);
     }
 
