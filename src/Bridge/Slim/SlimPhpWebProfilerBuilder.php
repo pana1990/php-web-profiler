@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace WebProfiler\Bridge\Slim;
 
 use DebugBar\Storage\FileStorage;
+use DebugBar\Storage\StorageInterface;
 use Slim\App;
 use WebProfiler\Bridge\Slim\Middlewares\DebugMiddleware;
 use WebProfiler\Bridge\Slim\Middlewares\RequestDebugMiddleware;
@@ -23,6 +24,7 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
     private ?RequestTraceable $requestTraceable = null;
     private ?LoggerTraceable $logger            = null;
     private ?PdoTraceableInterface $pdo         = null;
+    private ?StorageInterface $storage          = null;
 
     private function __construct(
         private App $app,
@@ -59,6 +61,13 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
         return $this;
     }
 
+    public function withStorage(StorageInterface $storage): self
+    {
+        $this->storage = $storage;
+
+        return $this;
+    }
+
     public function build(): PhpWebProfiler
     {
         $this->setStorage();
@@ -71,7 +80,11 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
 
     private function setStorage(): void
     {
-        $this->phpWebProfiler->setStorage(new FileStorage(__DIR__ . '/../../var'));
+        if (null === $this->storage) {
+            $this->phpWebProfiler->setStorage(new FileStorage(__DIR__ . '/../../var'));
+        } else {
+            $this->phpWebProfiler->setStorage($this->storage);
+        }
     }
 
     private function addRoutes(DebugController $debugController): void
