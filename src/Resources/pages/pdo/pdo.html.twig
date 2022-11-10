@@ -24,7 +24,22 @@
                 <tr>
                     <td class="text-nowrap">{{ value['time'] | date('H:i:s.u') }}</td>
                     <td class="text-nowrap">{{ collector.formatDuration(value['duration']) }}</td>
-                    <td><pre><code class="language-sql">{{ value['sql'] }}</code></pre></td>
+                    <td>
+                        <pre><code class="language-sql">{{ value['sql'] }}</code></pre>
+                        <div>
+                            <p>
+                                <a data-bs-toggle="collapse"
+                                        href="#multiCollapseExample1">
+                                    Trace
+                                </a>
+                            </p>
+                            <div class="collapse" id="multiCollapseExample1">
+                                {% for item in value['trace'] %}
+                                    {{ item['file'] ~ item['line'] }} <br>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
