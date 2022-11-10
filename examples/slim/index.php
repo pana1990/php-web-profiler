@@ -20,17 +20,24 @@ $log = (new Logger('log'))->pushHandler(new ErrorLogHandler());
 $traceableLogger = new LoggerTraceable($log);
 
 SlimPhpWebProfilerBuilder::fromApp($app)
+    ->withBufferSizeInMb(1)
     ->withPdo($pdoTraceable)
     ->withLogger($traceableLogger)
     ->build();
 
 $app->get('/', function (Request $request, Response $response) use ($traceableLogger, $pdoTraceable) {
-    $response->getBody()->write('Hello world!');
-
-    $traceableLogger->error('This is an error message');
+    ini_set('memory_limit', '2048M');
+    $response->getBody()->write(ini_get('memory_limit'));
 
     $pdoTraceable->exec('INSERT INTO test (title) VALUES ("test");');
-    $pdoTraceable->exec('SELECT * FROM test;');
+
+    foreach (range(0, 10000) as $item) {
+        $pdoTraceable->exec('SELECT * FROM test WHERE title="test" limit 1 OFFSET 0;');
+        $traceableLogger->error('This is an error message');
+        $traceableLogger->info('This is an error message');
+        $traceableLogger->warning('This is an error message');
+        $traceableLogger->error('This is an error message');
+    }
 
     return $response;
 });

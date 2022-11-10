@@ -18,6 +18,7 @@ use WebProfiler\PhpWebProfiler;
 use WebProfiler\PhpWebProfilerBuilder;
 use WebProfiler\Traceables\LoggerTraceable;
 use WebProfiler\Traceables\RequestTraceable;
+use WebProfiler\Traits\BufferSize;
 
 final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
 {
@@ -25,6 +26,7 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
     private ?LoggerTraceable $logger            = null;
     private ?PdoTraceableInterface $pdo         = null;
     private ?StorageInterface $storage          = null;
+    private int $bufferSizeInBytes              = 6144;
 
     private function __construct(
         private App $app,
@@ -44,6 +46,10 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
     {
         $this->pdo = $pdo;
 
+        if (in_array(BufferSize::class, class_uses($pdo), true)) {
+            $pdo->setBufferSize($this->bufferSizeInBytes);
+        }
+
         return $this;
     }
 
@@ -58,12 +64,23 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
     {
         $this->logger = $logger;
 
+        if (in_array(BufferSize::class, class_uses($logger), true)) {
+            $logger->setBufferSize($this->bufferSizeInBytes);
+        }
+
         return $this;
     }
 
     public function withStorage(StorageInterface $storage): self
     {
         $this->storage = $storage;
+
+        return $this;
+    }
+
+    public function withBufferSizeInMb(int $bufferSizeInMb): self
+    {
+        $this->bufferSizeInBytes = $bufferSizeInMb * (1024 * 1024);
 
         return $this;
     }
