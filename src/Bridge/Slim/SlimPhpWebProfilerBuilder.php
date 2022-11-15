@@ -11,6 +11,7 @@ use WebProfiler\Bridge\Slim\Middlewares\DebugMiddleware;
 use WebProfiler\Bridge\Slim\Middlewares\RequestDebugMiddleware;
 use WebProfiler\Contracts\PdoTraceableInterface;
 use WebProfiler\Controllers\DebugController;
+use WebProfiler\DataCollectors\DataCollectorAbstract;
 use WebProfiler\DataCollectors\LogDataCollector;
 use WebProfiler\DataCollectors\PdoDataCollector;
 use WebProfiler\DataCollectors\RequestDataCollector;
@@ -22,9 +23,10 @@ use WebProfiler\Traceables\RequestTraceable;
 final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
 {
     private ?RequestTraceable $requestTraceable = null;
-    private ?LoggerTraceable $logger            = null;
-    private ?PdoTraceableInterface $pdo         = null;
-    private ?StorageInterface $storage          = null;
+    private ?LoggerTraceable $logger = null;
+    private ?PdoTraceableInterface $pdo = null;
+    private ?StorageInterface $storage = null;
+    private string $xdebugLinkTemplate = 'phpstorm://open?url=file://%s&line=%s';
 
     private function __construct(
         private App $app,
@@ -67,6 +69,14 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
 
         return $this;
     }
+
+    public function withXdebugLinkTemplate(string $xdebugLinkTemplate): self
+    {
+        $this->xdebugLinkTemplate = $xdebugLinkTemplate;
+
+        return $this;
+    }
+
 
     public function build(): PhpWebProfiler
     {
@@ -117,14 +127,22 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
 
     private function addCollectors(): void
     {
-        $this->phpWebProfiler->addCollector(new RequestDataCollector($this->requestTraceable));
+        /** @var $collectors DataCollectorAbstract */
+        $collectors = [];
+
+        $collectors[] = new RequestDataCollector($this->requestTraceable);
 
         if ($this->pdo) {
-            $this->phpWebProfiler->addCollector(new PdoDataCollector($this->pdo));
+            $collectors[] = new PdoDataCollector($this->pdo);
         }
 
         if ($this->logger) {
-            $this->phpWebProfiler->addCollector(new LogDataCollector($this->logger));
+            $collectors[] = new LogDataCollector($this->logger);
         }
+
+        array_walk($collectors, function (DataCollectorAbstract $collector) {
+            $collector->setXdebugLinkTemplate($this->xdebugLinkTemplate);
+            $this->phpWebProfiler->addCollector($collector);
+        });
     }
 }

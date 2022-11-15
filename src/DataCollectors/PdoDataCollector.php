@@ -9,7 +9,6 @@ use WebProfiler\Contracts\PdoTraceableInterface;
 final class PdoDataCollector extends DataCollectorAbstract implements DataCollectorToolbar
 {
     private PdoTraceableInterface $pdoTraceable;
-    protected $xdebugLinkTemplate = 'phpstorm://open?url=file://%s&line=%s';
 
     public function __construct(PdoTraceableInterface $pdoTraceable)
     {
