@@ -31,7 +31,11 @@ final class PdoDataCollector extends DataCollectorAbstract implements DataCollec
             return $this->data;
         }
 
-        return $this->pdoTraceable->statements();
+        $statements = $this->pdoTraceable->statements();
+        foreach ($statements as &$statement) {
+            $statement['trace'] = array_map($this->trace(), $statement['trace']);
+        }
+        return $statements;
     }
 
     public function getName(): string
@@ -42,5 +46,15 @@ final class PdoDataCollector extends DataCollectorAbstract implements DataCollec
     public function count(): int
     {
         return count($this->collect());
+    }
+
+    public function trace(): \Closure
+    {
+        return function (array $trace): array {
+            return [
+                'url' => sprintf($this->xdebugLinkTemplate, $trace['file'], $trace['line']),
+                'path' => sprintf('%s:%s', $trace['file'], $trace['line']),
+            ];
+        };
     }
 }
