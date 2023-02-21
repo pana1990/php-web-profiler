@@ -51,9 +51,27 @@ final class PdoDataCollector extends DataCollectorAbstract implements DataCollec
     public function trace(): \Closure
     {
         return function (array $trace): array {
+            $file = $trace['file'] ?? null;
+            $line = $trace['line'] ?? null;
+            $class = $trace['class'] ?? null;
+
+            if (true === isset($file, $line)) {
+                return [
+                    'url'  => sprintf($this->xdebugLinkTemplate, $file, $line),
+                    'path' => sprintf('%s:%s', $file, $line),
+                ];
+            }
+
+            if (true === isset($class)) {
+                return [
+                    'url' => null,
+                    'path' => sprintf('%s:%s', $class, $line),
+                ];
+            }
+
             return [
-                'url' => sprintf($this->xdebugLinkTemplate, $trace['file'], $trace['line']),
-                'path' => sprintf('%s:%s', $trace['file'], $trace['line']),
+                'url' => null,
+                'path' => 'Unkown',
             ];
         };
     }

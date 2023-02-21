@@ -8,9 +8,9 @@
 
         <table id="table-pdo" class="table table-bordered table-striped">
             <colgroup>
-                <col />
-                <col />
-                <col />
+                <col/>
+                <col/>
+                <col/>
             </colgroup>
             <thead>
             <tr>
@@ -34,7 +34,11 @@
                             </p>
                             <div class="collapse" id="trace-{{ index }}">
                                 {% for trace in value['trace'] %}
-                                    <a href="{{ trace['url'] }}">{{ trace['path'] }}</a><br>
+                                    {% if trace['url'] is not null %}
+                                        <a href="{{ trace['url'] }}">{{ trace['path'] }}</a><br>
+                                    {% else %}
+                                        {{ trace['path'] }}<br>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                         </div>
@@ -52,6 +56,6 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
 
     <script>
-      hljs.highlightAll();
+        hljs.highlightAll();
     </script>
 {% endblock %}
