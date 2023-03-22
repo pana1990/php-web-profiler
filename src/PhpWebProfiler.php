@@ -7,6 +7,7 @@ namespace WebProfiler;
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DebugBar;
 use WebProfiler\DataCollectors\DataCollectorToolbar;
+use WebProfiler\Storage\Storage;
 
 final class PhpWebProfiler extends DebugBar
 {
@@ -48,15 +49,25 @@ final class PhpWebProfiler extends DebugBar
     private function logRotate(): void
     {
         $storage = $this->getStorage();
-        $logs = $storage->find([]);
 
-        if ($this->keepMaxLogs < count($logs)) {
-            $storage->clear();
-        }
+        $storage->rotate($this->keepMaxLogs);
     }
 
     public function getPrefixEndpoint(): string
     {
         return $this->prefixEndpoint;
+    }
+
+    /**
+     * @return Storage
+     */
+    public function getStorage()
+    {
+        // TODO: PhpWebProfiler should be a composition, not an inheritance
+
+        /** @var Storage $storage */
+        $storage = parent::getStorage();
+
+        return $storage;
     }
 }

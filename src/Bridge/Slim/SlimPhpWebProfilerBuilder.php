@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace WebProfiler\Bridge\Slim;
 
 use DebugBar\Storage\FileStorage;
-use DebugBar\Storage\StorageInterface;
 use Slim\App;
 use WebProfiler\Bridge\Slim\Middlewares\DebugMiddleware;
 use WebProfiler\Bridge\Slim\Middlewares\RequestDebugMiddleware;
@@ -17,6 +16,7 @@ use WebProfiler\DataCollectors\PdoDataCollector;
 use WebProfiler\DataCollectors\RequestDataCollector;
 use WebProfiler\PhpWebProfiler;
 use WebProfiler\PhpWebProfilerBuilder;
+use WebProfiler\Storage\Storage;
 use WebProfiler\Traceables\LoggerTraceable;
 use WebProfiler\Traceables\RequestTraceable;
 
@@ -25,7 +25,7 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
     private ?RequestTraceable $requestTraceable = null;
     private ?LoggerTraceable $logger = null;
     private ?PdoTraceableInterface $pdo = null;
-    private ?StorageInterface $storage = null;
+    private ?Storage $storage = null;
     private string $xdebugLinkTemplate = 'phpstorm://open?url=file://%s&line=%s';
 
     private function __construct(
@@ -63,7 +63,7 @@ final class SlimPhpWebProfilerBuilder implements PhpWebProfilerBuilder
         return $this;
     }
 
-    public function withStorage(StorageInterface $storage): self
+    public function withStorage(Storage $storage): self
     {
         $this->storage = $storage;
 
