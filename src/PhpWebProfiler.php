@@ -48,7 +48,7 @@ final class PhpWebProfiler extends DebugBar
     private function logRotate(): void
     {
         $storage = $this->getStorage();
-        $logs = $storage->find([]);
+        $logs = $storage->find([], $this->keepMaxLogs + 1);
 
         if ($this->keepMaxLogs < count($logs)) {
             $storage->clear();
